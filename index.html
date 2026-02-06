@@ -5,13 +5,13 @@
 
   <!-- Open Graph / Social Preview -->
   <meta property="og:title" content="AMPRSND" />
-  <meta property="og:image" content="images/amprsnd_hero.png" />
+  <meta property="og:image" content="https://amprsndamprsnd.com/images/amprsnd_hero.png" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bn-blip.github.io/amprsnd-preview/" />
+  <meta property="og:url" content="https://amprsndamprsnd.com/" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="images/amprsnd_hero.png" />
+  <meta name="twitter:image" content="https://amprsndamprsnd.com/images/amprsnd_hero.png" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AMPRSND</title>
@@ -63,6 +63,14 @@ body{
   filter:blur(18px);
 }
 
+/* ================= HERO DIM ================= */
+
+.hero.dim{
+  filter:brightness(0.92);
+  transition:filter 200ms ease;
+}
+
+
 /* ================= CONTACT ================= */
 
 .email{
@@ -77,21 +85,76 @@ body{
   left:32px;
   font-size:14px;
   opacity:.7;
+  transition:opacity 220ms ease, transform 220ms ease, letter-spacing 220ms ease;
+}
+
+.email-desktop:hover{
+  opacity:1;
+  transform:translateY(-2px);
+  letter-spacing:.09em;
 }
 
 .contact-mobile{ display:none; }
+
+/* ================= MOBILE HINT ================= */
+
+.hint-wrap{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:26px;
+  display:none;
+  align-items:center;
+  gap:10px;
+  z-index:6;
+}
+
+.hint{
+  font-size:11px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  opacity:0.55;
+}
+
+.btn{
+  font-family:inherit;
+  font-size:11px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:rgba(255,255,255,0.85);
+  border:1px solid var(--hair);
+  padding:7px 10px;
+  cursor:pointer;
+}
 
 /* ================= SECTIONS ================= */
 
 .section{ border-top:1px solid var(--hair); }
 
+.section,
+.drifts{
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity 600ms ease, transform 600ms ease;
+}
+
+.section.visible,
+.drifts.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
 .header{
   position:sticky;
   top:0;
   background:rgba(255,255,255,.92);
+  backdrop-filter:blur(4px);
   padding:16px 32px;
   border-bottom:1px solid var(--hair);
   cursor:pointer;
+  display:flex;
+  align-items:center;
 }
 
 .header span{
@@ -101,7 +164,12 @@ body{
   opacity:.7;
 }
 
-/* ================= PROJECTS ================= */
+.header:hover span{
+  opacity:.9;
+  letter-spacing:.22em;
+}
+
+/* ================= PROJECT LIST ================= */
 
 .projects{
   overflow:hidden;
@@ -115,6 +183,36 @@ body{
   height:110px;
   background-size:cover;
   background-position:center;
+  filter:grayscale(100%);
+  transition:.3s;
+}
+
+.project:hover{ filter:grayscale(0%); }
+
+.project a{
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+/* ================= RELEASES ================= */
+
+.release-live{
+  position:relative;
+}
+
+.release-live::after{
+  content:"LIVE";
+  position:absolute;
+  top:12px;
+  left:12px;
+  font-size:10px;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:#fff;
+  background:rgba(0,0,0,.55);
+  padding:6px 8px;
+  opacity:.75;
 }
 
 /* ================= VEIL ================= */
@@ -123,10 +221,13 @@ body{
   position:fixed;
   inset:0;
   background:rgba(255,255,255,.96);
+  backdrop-filter:blur(6px);
   opacity:0;
   pointer-events:none;
   transition:opacity .4s ease;
   z-index:100;
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .veil.active{
@@ -135,10 +236,239 @@ body{
 }
 
 .veil-inner{
+  min-height:100%;
   padding:48px 32px 64px;
 }
 
-/* ================= GRAIN ================= */
+@media (min-width:900px){
+  .veil-inner{
+    padding:72px 64px 96px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+}
+
+.veil-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--hair);
+  padding-bottom:18px;
+  margin-bottom:40px;
+}
+
+.veil-header h1{
+  margin:0;
+  font-size:14px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  font-weight:400;
+}
+
+.veil-header button{
+  background:none;
+  border:none;
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink);
+  cursor:pointer;
+}
+
+/* ================= ROW BASE ================= */
+
+.row{
+  padding:18px 0;
+  border-bottom:1px solid var(--hair);
+}
+
+.row a{
+  text-decoration:none;
+  color:var(--ink);
+  font-size:16px;
+}
+
+/* ================= ABOUT ================= */
+
+#aboutVeil .about-layout{
+  display:block;
+}
+
+#aboutVeil .about-note{
+  border-bottom:none;
+  padding:0;
+  margin-bottom:48px;
+}
+
+#aboutVeil .about-note p{
+  margin:0;
+  max-width:680px;
+  font-size:16px;
+  line-height:1.55;
+  opacity:.85;
+}
+
+#aboutVeil .about-note strong{
+  font-weight:500;
+  letter-spacing:.02em;
+}
+
+@media (min-width:900px){
+  #aboutVeil .about-note p{
+    font-size:17px;
+    line-height:1.6;
+  }
+}
+
+/* ================= CAPABILITIES ================= */
+
+#aboutVeil .caps-label{
+  font-size:10px;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  opacity:.35;
+  margin-bottom:14px;
+}
+
+#aboutVeil .caps{ max-width:360px; }
+
+#aboutVeil .cap-row{
+  padding:12px 0;
+  cursor:pointer;
+  border-bottom:1px solid var(--hair);
+}
+
+#aboutVeil .cap-row span{
+  display:block;
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  opacity:.55;
+}
+
+
+
+#aboutVeil .cap-row:last-child{
+  border-bottom:none;
+}
+
+/* BASE: hide descriptions everywhere */
+#aboutVeil .cap-row em{
+  display:none;
+  font-style:normal;
+}
+
+/* LARGE DESKTOP ONLY: hover reveal */
+@media (min-width:1100px){
+  #aboutVeil .cap-row em{
+    display:block;
+    opacity:0;
+    max-height:0;
+    overflow:hidden;
+    transform:translateY(-2px);
+    transition:opacity .25s ease, transform .25s ease, max-height .25s ease;
+  }
+
+  #aboutVeil .cap-row:hover em{
+    opacity:.65;
+    max-height:40px;
+    transform:translateY(0);
+  }
+}
+
+#aboutVeil .cap-row:hover span,
+#aboutVeil .cap-row.open span{
+  opacity:.75;
+}
+
+@media (min-width:1100px){
+  #aboutVeil .cap-row em{
+    transform:translate(0, -2px);
+  }
+
+  #aboutVeil .cap-row:hover em{
+    transform:translate(4px, 0);
+  }
+}
+
+
+@media (max-width:600px){
+  #aboutVeil .cap-row.open em{
+    transform:translateX(4px);
+  }
+}
+
+@media (min-width:1100px){
+  #aboutVeil .caps{
+    animation: capsFloat 6s ease-in-out infinite alternate;
+  }
+
+  @keyframes capsFloat{
+    from{ transform:translateY(0); }
+    to{ transform:translateY(-6px); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  #aboutVeil .caps{
+    animation:none;
+  }
+}
+
+#aboutVeil .caps:hover{
+  animation-play-state:paused;
+}
+
+/* MOBILE: tap to expand (bigger text) */
+@media (max-width:600px){
+  #aboutVeil .cap-row em{
+    font-size:15px;
+    line-height:1.55;
+    margin-top:8px;
+    opacity:.75;
+  }
+
+  #aboutVeil .cap-row.open em{
+    display:block;
+  }
+}
+
+/* ================= ABOUT GRID ================= */
+
+@media (min-width:900px){
+  #aboutVeil .about-layout{
+    display:grid;
+    grid-template-columns: minmax(520px,1fr) 360px;
+    gap:88px;
+    align-items:start;
+  }
+}
+
+/* ================= ABOUT CONTACT ================= */
+
+#aboutVeil .about-contact{
+  margin-top:40px;
+  padding-top:24px;
+  border-top:1px solid var(--hair);
+}
+
+#aboutVeil .about-email{
+  display:inline-block;
+  margin-top:8px;
+  font-size:14px;
+  letter-spacing:.06em;
+  text-decoration:none;
+  color:var(--ink);
+  opacity:.7;
+  transition:opacity .25s ease, transform .25s ease;
+}
+
+#aboutVeil .about-email:hover{
+  opacity:1;
+  transform:translateX(2px);
+}
+
+/* ================= PAPER GRAIN ================= */
 
 #aboutVeil::after{
   content:"";
@@ -148,85 +478,306 @@ body{
   opacity:.04;
   pointer-events:none;
 }
+
+/* ================= FOOTER ================= */
+
+.drifts{
+  padding:56px 32px 72px;
+  text-align:center;
+  font-size:14px;
+  opacity:.7;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:600px){
+  .hint-wrap{ display:flex; }
+  .email-desktop{ display:none; }
+  .contact-mobile{
+    display:block;
+    position:fixed;
+    top:14px;
+    right:16px;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--ink);
+    opacity:.7;
+    z-index:20;
+  }
+}
 </style>
+</head>
 
 <body>
 
 <section class="hero" id="hero">
   <div id="stage" class="stage"></div>
 
+  <div class="hint-wrap" id="hintWrap">
+    <div class="hint" id="hintText">Swipe or tilt</div>
+    <button class="btn" id="enableTilt" style="display:none;">Enable tilt</button>
+  </div>
+
+  <!-- Desktop email -->
   <a href="mailto:hello@amprsndamprsnd.com" class="email email-desktop">
     hello@amprsndamprsnd.com
+  </a>
+
+  <!-- Mobile contact -->
+  <a href="mailto:hello@amprsndamprsnd.com" class="email contact-mobile">
+    Contact
   </a>
 </section>
 
 <section class="section">
   <div class="header" id="openGallery"><span>Gallery</span></div>
 </section>
-
 <section class="section">
-  <div class="header" id="toggleReleases"><span>Releases</span></div>
+  <div class="header" id="toggleReleases">
+    <span>Releases</span>
+  </div>
+
   <div class="projects" id="releases">
 
-    <div class="project" style="background-image:url('images/BADCHILD_WHITEKNIGHT_B8.1.jpg')">
-      <a href="preview/bad-child-white-knight2.html"></a>
+    <div
+      class="project release-live"
+      style="background-image:url('images/BADCHILD_WHITEKNIGHT_B8.1.jpg')"
+    >
+      <a href="/preview/bad-child-white-knight2.html"></a>
     </div>
 
-    <div class="project" style="background-image:url('images/RYANCHAMBERS-GREENCRACK-B01.1-020126.png')">
-      <a href="preview/ryan-chambers-green-crack.html"></a>
+    <div
+      class="project release-live"
+      style="background-image:url('images/RYANCHAMBERS-GREENCRACK-B01.1-020126.png')"
+    >
+      <a href="/preview/ryan-chambers-green-crack.html"></a>
     </div>
 
   </div>
 </section>
-
 <section class="section">
   <div class="header" id="toggleProjects"><span>Projects</span></div>
   <div class="projects" id="projects">
     <div class="project" style="background-image:url('images/AN_AngelicasNewViolin_ThumbBG.png')">
-      <a href="angelica-nero-geigenbau-sander.html"></a>
+      <a href="/angelica-nero-geigenbau-sander"></a>
     </div>
     <div class="project" style="background-image:url('images/SIFT_Maddy_JamInTheVan_BG.png')">
-      <a href="sift-with-maddy-jaminthevan.html"></a>
+      <a href="/sift-with-maddy-jaminthevan"></a>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="header" id="openAbout"><span>About</span></div>
+  <div class="header" id="openAbout">
+    <span>About</span>
+  </div>
 </section>
+
+<div class="drifts">
+  AMPRSND is a product development studio for image, sound, and matter.
+</div>
 
 <div class="veil" id="galleryVeil">
   <div class="veil-inner">
-    <div><a href="Gallery/IsaiahSteinberg.html">Isaiah Steinberg</a></div>
-    <div><a href="Gallery/BiancaNicdao.html">Bianca Nicdao</a></div>
+    <div class="veil-header">
+      <h1>Artists</h1>
+      <button id="closeGallery">Close</button>
+    </div>
+    <div class="row"><a href="/Gallery/IsaiahSteinberg">Isaiah Steinberg</a></div>
+    <div class="row"><a href="/Gallery/BiancaNicdao">Bianca Nicdao</a></div>
   </div>
 </div>
 
-<script>
-/* ================= HERO FRAMES ================= */
-const FRAME_COUNT = 60;
-const START = 86400;
+<div class="veil" id="aboutVeil">
+  <div class="veil-inner">
 
-const frames = Array.from({ length: FRAME_COUNT }, (_, i) =>
-  `images/AA_1_${String(START + i).padStart(8,"0")}.jpg`
+    <div class="veil-header">
+      <h1>About</h1>
+      <button id="closeAbout">Close</button>
+    </div>
+
+<div class="about-layout">
+
+  <div class="row about-note">
+    <p>
+  <strong>AMPRSND</strong> is a creative studio by Isaiah Steinberg and Bianca Nicdao.
+  <br><br>
+  Their collaboration began inside the music industry and expanded outward across sound, image, and experience.
+  <br><br>
+  Based between Toronto and Los Angeles, working in focused projects and campaign-scale ideas.
+</p>
+  </div>
+
+  <div>
+    <div class="caps-label">Capabilities</div>
+    <div class="caps">
+      <div class="cap-row"><span>Creative Direction</span><em>Authored worlds, visual systems, point of view.</em></div>
+      <div class="cap-row"><span>Campaigns</span><em>Concept-to-deliverables across formats.</em></div>
+      <div class="cap-row">
+  <span>Design</span>
+  <em>Systems, identities, and material language.</em>
+</div>
+      <div class="cap-row"><span>Web Development</span><em>Custom sites, microsites, interactive builds.</em></div>
+      <div class="cap-row"><span>Animation</span><em>Motion systems, loops, titles, visual rhythm.</em></div>
+      <div class="cap-row"><span>Experiential</span><em>Spaces, installations, physical encounters.</em></div>
+    </div>
+  </div>
+  
+  <div class="about-contact">
+  <div class="caps-label">Inquiries</div>
+  <a href="mailto:hello@amprsndamprsnd.com" class="about-email">
+    hello@amprsndamprsnd.com
+  </a>
+</div>
+
+</div>
+<script>
+
+
+/* ================= FADE IN ON SCROLL ================= */
+
+const observer = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.15 }
 );
 
-frames.forEach(src => { const i=new Image(); i.src=src; });
+document.querySelectorAll(".section, .drifts").forEach(el =>
+  observer.observe(el)
+);
 
-const stage=document.getElementById("stage");
-stage.style.backgroundImage=`url('${frames[0]}')`;
+/* ================= HERO FRAMES ================= */
 
-document.getElementById("toggleReleases").onclick=()=>{
-  document.getElementById("releases").classList.toggle("open");
+const FRAME_COUNT = 60;
+const START = 86400;
+const frames = Array.from({ length: FRAME_COUNT }, (_, i) =>
+  `images/AA_1_${String(START + i).padStart(8, "0")}.jpg`
+);
+frames.forEach(src => { const i = new Image(); i.src = src; });
+
+const hero = document.getElementById("hero");
+const stage = document.getElementById("stage");
+let current = 0;
+stage.style.backgroundImage = `url('${frames[0]}')`;
+
+function setFrame(i){
+  i=Math.max(0,Math.min(FRAME_COUNT-1,i));
+  if(i===current)return;
+  current=i;
+  stage.style.backgroundImage=`url('${frames[i]}')`;
+}
+
+hero.addEventListener("mousemove",e=>{
+  const r=hero.getBoundingClientRect();
+  const d=Math.hypot(
+    e.clientX-(r.left+r.width/2),
+    e.clientY-(r.top+r.height/2)
+  );
+  setFrame(Math.round(d/Math.hypot(r.width/2,r.height/2)*(FRAME_COUNT-1)));
+});
+
+const toggleReleases = document.getElementById("toggleReleases");
+const releases = document.getElementById("releases");
+
+toggleReleases.onclick = () => {
+  releases.classList.toggle("open");
 };
 
-document.getElementById("toggleProjects").onclick=()=>{
-  document.getElementById("projects").classList.toggle("open");
-};
 
-document.getElementById("openGallery").onclick=()=>{
-  document.getElementById("galleryVeil").classList.add("active");
-};
+/* ================= MOBILE TILT ================= */
+
+const enableTiltBtn = document.getElementById("enableTilt");
+const hintText = document.getElementById("hintText");
+
+function handleTilt(e){
+  if (!e.gamma || !e.beta) return;
+
+  const x = Math.max(-45, Math.min(45, e.gamma));
+  const y = Math.max(-45, Math.min(45, e.beta - 45));
+
+  const frame = Math.round(
+    ((x + 45) / 90) * (FRAME_COUNT - 1)
+  );
+
+  setFrame(frame);
+}
+
+/* Show enable button ONLY on mobile */
+if (window.innerWidth <= 600) {
+  enableTiltBtn.style.display = "inline-block";
+  hintText.textContent = "Tilt your phone";
+}
+
+enableTiltBtn.addEventListener("click", async () => {
+  if (
+    typeof DeviceOrientationEvent !== "undefined" &&
+    typeof DeviceOrientationEvent.requestPermission === "function"
+  ) {
+    try {
+      const permission = await DeviceOrientationEvent.requestPermission();
+      if (permission === "granted") {
+        window.addEventListener("deviceorientation", handleTilt, true);
+        enableTiltBtn.style.display = "none";
+        hintText.textContent = "Tilt enabled";
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    // Android / older browsers
+    window.addEventListener("deviceorientation", handleTilt, true);
+    enableTiltBtn.style.display = "none";
+    hintText.textContent = "Tilt enabled";
+  }
+});
+
+/* ================= UI ================= */
+
+const galleryVeil=document.getElementById("galleryVeil");
+document.getElementById("openGallery").onclick=()=>galleryVeil.classList.add("active");
+document.getElementById("closeGallery").onclick=()=>galleryVeil.classList.remove("active");
+document.getElementById("toggleProjects").onclick=()=>document.getElementById("projects").classList.toggle("open");
+
+document.querySelectorAll('#releases a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+
+    const href = link.getAttribute('href');
+    const hero = document.getElementById('hero');
+
+    hero.classList.add('dim');
+
+    setTimeout(() => {
+      window.location.href = href;
+    }, 220);
+  });
+});
+
+/* ================= ABOUT VEIL ================= */
+
+const aboutVeil = document.getElementById("aboutVeil");
+document.getElementById("openAbout").onclick = () =>
+  aboutVeil.classList.add("active");
+document.getElementById("closeAbout").onclick = () =>
+  aboutVeil.classList.remove("active");
+  
+  /* ================= MOBILE CAPABILITIES TOGGLE ================= */
+
+document.querySelectorAll('#aboutVeil .cap-row').forEach(row => {
+  row.addEventListener('click', () => {
+    if (window.innerWidth > 600) return;
+
+    row.classList.toggle('open');
+  });
+});
+
 </script>
 
 </body>
