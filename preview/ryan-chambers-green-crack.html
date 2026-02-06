@@ -123,6 +123,8 @@ body{
     position:fixed;
     inset:0;
     padding:90px 0 120px; /* top room for Back, bottom room for meta/timer */
+    display:flex;
+    flex-direction:column;
     align-items:flex-start;
   }
 
@@ -131,12 +133,20 @@ body{
     inset:-10%;
   }
 
+  /* ✅ CENTER THE COVER ON MOBILE */
+  .cover{
+    margin-left:auto;
+    margin-right:auto;
+  }
+
   .cover img{
     width:84vw;
     max-width:420px;
+    display:block;
   }
 
   .meta{
+    position:fixed;
     left:18px;
     bottom:18px;
     font-size:11px;
@@ -145,6 +155,7 @@ body{
   }
 
   .timer{
+    position:fixed;
     right:18px;
     bottom:18px;
     font-size:10px;
