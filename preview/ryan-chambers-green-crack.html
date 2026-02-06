@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>RYAN CHAMBERS — GREEN CRACK — AMPRSND </title>
+<title>RYAN CHAMBERS — GREEN CRACK — AMPRSND</title>
 
 <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/alte-haas-grotesk">
 
@@ -12,10 +12,10 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
-  --bg:#0b120d;          /* deep green-black */
-  --ink:#d9ffd2;         /* toxic pale green */
-  --artist:#8fbf98;      /* muted green */
-  --timer:#6fae78;       /* dimmer green */
+  --bg:#0b120d;
+  --ink:#d9ffd2;
+  --artist:#8fbf98;
+  --timer:#6fae78;
 }
 
 body{
@@ -38,6 +38,7 @@ body{
 /* ===== ART ===== */
 .cover img{
   width:min(70vh,640px);
+  display:block;
   box-shadow:
     0 40px 120px rgba(255,140,0,.25),
     0 0 120px rgba(90,255,120,.08);
@@ -83,15 +84,6 @@ body{
   text-align:right;
 }
 
-.stage::before{
-  content:"";
-  position:absolute;
-  inset:-20%;
-  background:
-    radial-gradient(circle at 60% 50%, rgba(80,255,120,.06), transparent 60%);
-  pointer-events:none;
-}
-
 /* ===== BACK ===== */
 .back{
   position:fixed;
@@ -106,6 +98,7 @@ body{
 
 /* ========================= */
 /* ===== MOBILE REFLOW ===== */
+/* (MATCHES BAD CHILD EXACTLY) */
 /* ========================= */
 
 @media(max-width:700px){
@@ -140,10 +133,7 @@ body{
     width:84vw;
     max-width:420px;
     margin:0 auto;
-    display:block;
-    box-shadow:
-      0 28px 80px rgba(255,140,0,.28),
-      0 0 90px rgba(90,255,120,.12);
+    box-shadow:0 28px 80px rgba(0,0,0,.16);
   }
 
   /* META — BELOW ARTWORK */
@@ -165,7 +155,6 @@ body{
     font-size:10px;
   }
 }
-
 </style>
 </head>
 
@@ -174,14 +163,20 @@ body{
 <a href="/" class="back">Back</a>
 
 <div class="stage">
-  <div class="cover">
-   <img
-  src="../images/RYANCHAMBERS-GREENCRACK-B01.1-020126.png"
-  alt="RYAN CHAMBERS — GREEN CRACK"
-/>
-  </div>
 
-  <!-- MOBILE META STACK -->
+  <!-- CLICKABLE ARTWORK -->
+  <a
+    class="cover"
+    href="https://open.spotify.com/artist/6O91ouSNeRUa0jdq0q5s07?si=ADKq7on-Tj20KXCTHXs6cg"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      src="../images/RYANCHAMBERS-GREENCRACK-B01.1-020126.png"
+      alt="RYAN CHAMBERS — GREEN CRACK"
+    />
+  </a>
+
   <div class="meta">
     <div class="artist">RYAN CHAMBERS</div>
     <div class="title">GREEN CRACK</div>
@@ -191,7 +186,6 @@ body{
 </div>
 
 <script>
-/* ===== COUNTDOWN ===== */
 const target = new Date("February 24, 2026 00:00:00").getTime();
 const el = document.getElementById("timer");
 
