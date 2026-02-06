@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -36,6 +36,11 @@ body{
 }
 
 /* ===== ART ===== */
+.cover{
+  display:inline-block;
+  text-decoration:none;
+}
+
 .cover img{
   width:min(70vh,640px);
   display:block;
@@ -53,7 +58,15 @@ body{
     0 0 160px rgba(90,255,120,.12);
 }
 
-/* ===== META (DESKTOP) ===== */
+.stage::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:radial-gradient(circle at 60% 50%, rgba(80,255,120,.06), transparent 60%);
+  pointer-events:none;
+}
+
+/* ===== META (bottom-left) ===== */
 .meta{
   position:fixed;
   bottom:36px;
@@ -71,7 +84,7 @@ body{
   color:var(--ink);
 }
 
-/* ===== TIMER (DESKTOP) ===== */
+/* ===== TIMER (bottom-right) ===== */
 .timer{
   position:fixed;
   bottom:36px;
@@ -97,56 +110,46 @@ body{
 }
 
 /* ========================= */
-/* ===== MOBILE REFLOW ===== */
-/* (MATCHES BAD CHILD EXACTLY) */
+/* ===== MOBILE (MATCH BAD CHILD SCREENSHOT LAYOUT) ===== */
+/* meta pinned bottom-left, timer pinned bottom-right */
 /* ========================= */
-
 @media(max-width:700px){
-
   body{
-    height:auto;
-    overflow:auto;
+    height:100svh;
+    overflow:hidden;
   }
 
   .stage{
-    position:relative;
-    inset:auto;
-    padding-top:110px;
-    padding-bottom:120px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
+    position:fixed;
+    inset:0;
+    padding:90px 0 120px; /* top room for Back, bottom room for meta/timer */
+    align-items:flex-start;
   }
 
-  /* TIMER — ABOVE ARTWORK */
-  .timer{
-    position:relative;
-    margin-bottom:22px;
-    font-size:10px;
-    letter-spacing:.22em;
-    text-align:center;
+  /* optional: prevent any weird overflow from the glow layer on iOS */
+  .stage::before{
+    inset:-10%;
   }
 
-  /* ARTWORK — TRUE CENTER */
   .cover img{
     width:84vw;
     max-width:420px;
-    margin:0 auto;
-    box-shadow:0 28px 80px rgba(0,0,0,.16);
   }
 
-  /* META — BELOW ARTWORK */
   .meta{
-    position:relative;
-    margin-top:26px;
-    text-align:center;
+    left:18px;
+    bottom:18px;
     font-size:11px;
     letter-spacing:.2em;
+    text-align:left;
   }
 
-  .meta .title{
-    margin-top:8px;
+  .timer{
+    right:18px;
+    bottom:18px;
+    font-size:10px;
+    letter-spacing:.22em;
+    text-align:right;
   }
 
   .back{
@@ -163,27 +166,26 @@ body{
 <a href="/" class="back">Back</a>
 
 <div class="stage">
-
-  <!-- CLICKABLE ARTWORK -->
   <a
     class="cover"
     href="https://open.spotify.com/artist/6O91ouSNeRUa0jdq0q5s07?si=ADKq7on-Tj20KXCTHXs6cg"
     target="_blank"
     rel="noopener"
+    aria-label="Open Ryan Chambers on Spotify"
   >
     <img
       src="../images/RYANCHAMBERS-GREENCRACK-B01.1-020126.png"
       alt="RYAN CHAMBERS — GREEN CRACK"
     />
   </a>
-
-  <div class="meta">
-    <div class="artist">RYAN CHAMBERS</div>
-    <div class="title">GREEN CRACK</div>
-  </div>
-
-  <div class="timer" id="timer">LOADING</div>
 </div>
+
+<div class="meta">
+  <div class="artist">RYAN CHAMBERS</div>
+  <div class="title">GREEN CRACK</div>
+</div>
+
+<div class="timer" id="timer">LOADING</div>
 
 <script>
 const target = new Date("February 24, 2026 00:00:00").getTime();
@@ -205,7 +207,6 @@ function tick(){
 
   el.textContent = `${days}D ${pad(h)}H ${pad(m)}M ${pad(s)}S`;
 }
-
 tick();
 setInterval(tick,1000);
 </script>
