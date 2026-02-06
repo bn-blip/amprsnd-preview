@@ -12,16 +12,16 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
-  --artist:#b7b7b7;   /* lighter grey for BAD CHILD */
-  --ink:#111;         /* title / emphasis */
-  --timer:#b7b7b7;    /* timer grey */
+  --artist:#b7b7b7;
+  --ink:#111;
+  --timer:#b7b7b7;
 }
 
 body{
   font-family:'Alte Haas Grotesk', Helvetica, Arial, sans-serif;
   background:#ffffff;
   color:var(--ink);
-  height:100vh;
+  height:100svh;
   overflow:hidden;
 }
 
@@ -35,15 +35,10 @@ body{
 }
 
 /* ===== ART ===== */
-.cover{
-  position:relative;
-}
-
 .cover img{
   width:min(70vh,640px);
   box-shadow:0 48px 140px rgba(0,0,0,.18);
   transition:transform 700ms ease, filter 700ms ease, box-shadow 700ms ease;
-  will-change: transform, filter;
 }
 
 .cover:hover img{
@@ -52,7 +47,7 @@ body{
   box-shadow:0 52px 160px rgba(0,0,0,.20);
 }
 
-/* ===== META (bottom-left) ===== */
+/* ===== META ===== */
 .meta{
   position:fixed;
   bottom:36px;
@@ -61,20 +56,16 @@ body{
   letter-spacing:.18em;
   text-transform:uppercase;
   line-height:1.45;
-  user-select:none;
 }
 
-.meta .artist{
-  color:var(--artist);
-}
-
+.meta .artist{ color:var(--artist); }
 .meta .title{
   display:block;
   margin-top:6px;
   color:var(--ink);
 }
 
-/* ===== TIMER (bottom-right, screenshot style) ===== */
+/* ===== TIMER ===== */
 .timer{
   position:fixed;
   bottom:36px;
@@ -84,15 +75,14 @@ body{
   text-transform:uppercase;
   color:var(--timer);
   font-variant-numeric: tabular-nums;
-  user-select:none;
   text-align:right;
 }
 
 /* ===== BACK ===== */
 .back{
   position:fixed;
-  top:28px;
-  left:28px;
+  top:24px;
+  left:24px;
   font-size:11px;
   letter-spacing:.18em;
   text-transform:uppercase;
@@ -100,36 +90,48 @@ body{
   color:#9a9a9a;
 }
 
-.back::after{
-  content:"";
-  display:block;
-  height:1px;
-  background:currentColor;
-  margin-top:4px;
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform 260ms ease;
-  opacity:.8;
-}
-
-.back:hover::after{
-  transform:scaleX(1);
-}
-
-/* ===== MOBILE ===== */
+/* =========================
+   MOBILE RECOMPOSITION
+   ========================= */
 @media(max-width:700px){
+
+  body{
+    overflow:auto;
+  }
+
+  .stage{
+    position:relative;
+    flex-direction:column;
+    padding-top:72px;
+    padding-bottom:32px;
+  }
+
+  .cover img{
+    width:82vw;
+    max-width:360px;
+  }
+
   .meta{
-    left:50%;
-    transform:translateX(-50%);
+    position:relative;
+    left:auto;
+    bottom:auto;
+    margin-top:22px;
     text-align:center;
-    bottom:22px;
   }
 
   .timer{
-    right:50%;
-    transform:translateX(50%);
-    bottom:10px;
+    position:relative;
+    right:auto;
+    bottom:auto;
+    margin-top:10px;
     font-size:10px;
+    text-align:center;
+  }
+
+  .back{
+    position:fixed;
+    top:16px;
+    left:16px;
   }
 }
 </style>
@@ -141,50 +143,42 @@ body{
 
 <div class="stage">
   <div class="cover">
-   <img src="../images/BADCHILD_WHITEKNIGHT_B8.1.jpg" alt="BAD CHILD WHITE KNIGHT">
+    <img src="/images/BADCHILD_WHITEKNIGHT_B8.1.jpg" alt="BAD CHILD WHITE KNIGHT">
   </div>
-</div>
 
-<div class="meta">
-  <div class="artist">BAD CHILD</div>
-  <div class="title">WHITE KNIGHT</div>
-</div>
+  <div class="meta">
+    <div class="artist">BAD CHILD</div>
+    <div class="title">WHITE KNIGHT</div>
+  </div>
 
-<div class="timer" id="timer">LOADING</div>
+  <div class="timer" id="timer">LOADING</div>
+</div>
 
 <script>
-/* ===== COUNTDOWN TO FEB 20, 2026 00:00:00 (local time) ===== */
 const target = new Date("February 20, 2026 00:00:00").getTime();
 const el = document.getElementById("timer");
 
-function pad2(n){ return String(n).padStart(2, "0"); }
+function pad2(n){ return String(n).padStart(2,"0"); }
 
 function tick(){
-  const now = Date.now();
-  let diff = target - now;
-
-  if (diff <= 0){
+  let diff = target - Date.now();
+  if(diff <= 0){
     el.textContent = "AVAILABLE";
     return;
   }
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  diff -= days * (1000 * 60 * 60 * 24);
+  const d = Math.floor(diff / 86400000);
+  diff %= 86400000;
+  const h = Math.floor(diff / 3600000);
+  diff %= 3600000;
+  const m = Math.floor(diff / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
 
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  diff -= hours * (1000 * 60 * 60);
-
-  const mins = Math.floor(diff / (1000 * 60));
-  diff -= mins * (1000 * 60);
-
-  const secs = Math.floor(diff / 1000);
-
-  // Screenshot-style: 14D 06H 20M 56S
-  el.textContent = `${days}D ${pad2(hours)}H ${pad2(mins)}M ${pad2(secs)}S`;
+  el.textContent = `${d}D ${pad2(h)}H ${pad2(m)}M ${pad2(s)}S`;
 }
 
 tick();
-setInterval(tick, 1000);
+setInterval(tick,1000);
 </script>
 
 </body>
