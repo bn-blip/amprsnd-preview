@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>BAD CHILD — WHITE KNIGHT</title>
+
+<link rel="icon" type="image/png" href="/images/&rubberlogo.png">
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/alte-haas-grotesk">
+
+<style>
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+:root{
+  --ink:#9a9a9a;
+  --ink-dark:#111;
+  --hair:#e9e9e9;
+}
+
+body{
+  font-family:'Alte Haas Grotesk', Helvetica, Arial, sans-serif;
+  background:#ffffff;
+  color:var(--ink);
+  overflow:hidden;
+}
+
+/* ===== CANVAS ===== */
+.stage{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ===== ARTWORK ===== */
+.artwork{
+  width:min(72vh,520px);
+  transition:
+    transform 600ms ease,
+    box-shadow 600ms ease;
+  cursor:pointer;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.08);
+}
+
+.artwork:hover{
+  transform:translateY(-6px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.6),
+    0 24px 80px rgba(255,255,255,.55),
+    0 32px 120px rgba(0,0,0,.12);
+}
+
+.artwork img{
+  width:100%;
+  display:block;
+}
+
+/* ===== INFO ===== */
+.info{
+  position:fixed;
+  left:28px;
+  bottom:26px;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  line-height:1.6;
+  opacity:.65;
+  transition:opacity 400ms ease;
+}
+
+.info .title{
+  color:var(--ink-dark);
+}
+
+body:hover .info{
+  opacity:.85;
+}
+
+/* ===== COUNTDOWN ===== */
+.countdown{
+  position:fixed;
+  right:28px;
+  bottom:26px;
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  line-height:1.6;
+  opacity:.55;
+  transition:opacity 400ms ease;
+}
+
+body:hover .countdown{
+  opacity:.75;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:600px){
+
+  .artwork{
+    width:82vw;
+  }
+
+  .info{
+    left:18px;
+    bottom:20px;
+    font-size:10px;
+  }
+
+  .countdown{
+    right:18px;
+    bottom:20px;
+    font-size:10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stage">
+  <a
+    href="https://open.spotify.com/artist/7ayksoJ16I0E4Riftzvfaz?si=XjgLoouZRC6g2QXtVzfnjA"
+    target="_blank"
+    rel="noopener"
+    class="artwork"
+  >
+    <img
+      src="/images/BADCHILD_WHITEKNIGHT_B8.1.jpg"
+      alt="BAD CHILD WHITE KNIGHT"
+    />
+  </a>
+</div>
+
+<!-- INFO LABEL -->
+<div class="info">
+  BAD CHILD<br>
+  <span class="title">WHITE KNIGHT</span>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown" id="countdown">
+  LOADING TIME
+</div>
+
+<script>
+(function(){
+  const targetDate = new Date("February 20, 2026 00:00:00").getTime();
+  const el = document.getElementById("countdown");
+
+  function updateCountdown(){
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if(diff <= 0){
+      el.textContent = "AVAILABLE NOW";
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    el.textContent =
+      String(days).padStart(2,"0") + "D " +
+      String(hours).padStart(2,"0") + "H " +
+      String(mins).padStart(2,"0") + "M " +
+      String(secs).padStart(2,"0") + "S";
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+})();
+</script>
+
+</body>
+</html>

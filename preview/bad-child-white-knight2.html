@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>BAD CHILD — WHITE KNIGHT</title>
+
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/alte-haas-grotesk">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --artist:#b7b7b7;   /* lighter grey for BAD CHILD */
+  --ink:#111;         /* title / emphasis */
+  --timer:#b7b7b7;    /* timer grey */
+}
+
+body{
+  font-family:'Alte Haas Grotesk', Helvetica, Arial, sans-serif;
+  background:#ffffff;
+  color:var(--ink);
+  height:100vh;
+  overflow:hidden;
+}
+
+/* ===== FRAME ===== */
+.stage{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ===== ART ===== */
+.cover{
+  position:relative;
+}
+
+.cover img{
+  width:min(70vh,640px);
+  box-shadow:0 48px 140px rgba(0,0,0,.18);
+  transition:transform 700ms ease, filter 700ms ease, box-shadow 700ms ease;
+  will-change: transform, filter;
+}
+
+.cover:hover img{
+  transform:scale(1.012);
+  filter:brightness(1.02);
+  box-shadow:0 52px 160px rgba(0,0,0,.20);
+}
+
+/* ===== META (bottom-left) ===== */
+.meta{
+  position:fixed;
+  bottom:36px;
+  left:36px;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  line-height:1.45;
+  user-select:none;
+}
+
+.meta .artist{
+  color:var(--artist);
+}
+
+.meta .title{
+  display:block;
+  margin-top:6px;
+  color:var(--ink);
+}
+
+/* ===== TIMER (bottom-right, screenshot style) ===== */
+.timer{
+  position:fixed;
+  bottom:36px;
+  right:36px;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--timer);
+  font-variant-numeric: tabular-nums;
+  user-select:none;
+  text-align:right;
+}
+
+/* ===== BACK ===== */
+.back{
+  position:fixed;
+  top:28px;
+  left:28px;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:#9a9a9a;
+}
+
+.back::after{
+  content:"";
+  display:block;
+  height:1px;
+  background:currentColor;
+  margin-top:4px;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 260ms ease;
+  opacity:.8;
+}
+
+.back:hover::after{
+  transform:scaleX(1);
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:700px){
+  .meta{
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    bottom:22px;
+  }
+
+  .timer{
+    right:50%;
+    transform:translateX(50%);
+    bottom:10px;
+    font-size:10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<a href="/" class="back">Back</a>
+
+<div class="stage">
+  <div class="cover">
+    <img src="/images/BADCHILD_WHITEKNIGHT_B8.1.jpg" alt="BAD CHILD WHITE KNIGHT">
+  </div>
+</div>
+
+<div class="meta">
+  <div class="artist">BAD CHILD</div>
+  <div class="title">WHITE KNIGHT</div>
+</div>
+
+<div class="timer" id="timer">LOADING</div>
+
+<script>
+/* ===== COUNTDOWN TO FEB 20, 2026 00:00:00 (local time) ===== */
+const target = new Date("February 20, 2026 00:00:00").getTime();
+const el = document.getElementById("timer");
+
+function pad2(n){ return String(n).padStart(2, "0"); }
+
+function tick(){
+  const now = Date.now();
+  let diff = target - now;
+
+  if (diff <= 0){
+    el.textContent = "AVAILABLE";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  diff -= days * (1000 * 60 * 60 * 24);
+
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  diff -= hours * (1000 * 60 * 60);
+
+  const mins = Math.floor(diff / (1000 * 60));
+  diff -= mins * (1000 * 60);
+
+  const secs = Math.floor(diff / 1000);
+
+  // Screenshot-style: 14D 06H 20M 56S
+  el.textContent = `${days}D ${pad2(hours)}H ${pad2(mins)}M ${pad2(secs)}S`;
+}
+
+tick();
+setInterval(tick, 1000);
+</script>
+
+</body>
+</html>
