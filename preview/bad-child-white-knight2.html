@@ -21,11 +21,11 @@ body{
   font-family:'Alte Haas Grotesk', Helvetica, Arial, sans-serif;
   background:#ffffff;
   color:var(--ink);
-  height:100svh;
+  height:100vh;
   overflow:hidden;
 }
 
-/* ===== FRAME ===== */
+/* ===== DESKTOP CANVAS ===== */
 .stage{
   position:fixed;
   inset:0;
@@ -47,7 +47,7 @@ body{
   box-shadow:0 52px 160px rgba(0,0,0,.20);
 }
 
-/* ===== META ===== */
+/* ===== META (DESKTOP) ===== */
 .meta{
   position:fixed;
   bottom:36px;
@@ -65,7 +65,7 @@ body{
   color:var(--ink);
 }
 
-/* ===== TIMER ===== */
+/* ===== TIMER (DESKTOP) ===== */
 .timer{
   position:fixed;
   bottom:36px;
@@ -81,8 +81,8 @@ body{
 /* ===== BACK ===== */
 .back{
   position:fixed;
-  top:24px;
-  left:24px;
+  top:28px;
+  left:28px;
   font-size:11px;
   letter-spacing:.18em;
   text-transform:uppercase;
@@ -90,48 +90,59 @@ body{
   color:#9a9a9a;
 }
 
-/* =========================
-   MOBILE RECOMPOSITION
-   ========================= */
+/* ========================= */
+/* ===== MOBILE REFLOW ===== */
+/* ========================= */
+
 @media(max-width:700px){
 
   body{
+    height:auto;
     overflow:auto;
   }
 
   .stage{
     position:relative;
+    inset:auto;
+    padding-top:90px;
+    padding-bottom:80px;
     flex-direction:column;
-    padding-top:72px;
-    padding-bottom:32px;
   }
 
   .cover img{
     width:82vw;
-    max-width:360px;
+    max-width:420px;
+    box-shadow:0 32px 90px rgba(0,0,0,.16);
   }
 
   .meta{
     position:relative;
     left:auto;
     bottom:auto;
-    margin-top:22px;
+    margin-top:28px;
     text-align:center;
+    font-size:11px;
+  }
+
+  .meta .title{
+    margin-top:8px;
+    letter-spacing:.2em;
   }
 
   .timer{
     position:relative;
     right:auto;
     bottom:auto;
-    margin-top:10px;
+    margin-top:14px;
     font-size:10px;
+    letter-spacing:.22em;
     text-align:center;
   }
 
   .back{
-    position:fixed;
-    top:16px;
-    left:16px;
+    top:18px;
+    left:18px;
+    font-size:10px;
   }
 }
 </style>
@@ -146,6 +157,7 @@ body{
     <img src="/images/BADCHILD_WHITEKNIGHT_B8.1.jpg" alt="BAD CHILD WHITE KNIGHT">
   </div>
 
+  <!-- MOBILE META STACK -->
   <div class="meta">
     <div class="artist">BAD CHILD</div>
     <div class="title">WHITE KNIGHT</div>
@@ -155,26 +167,25 @@ body{
 </div>
 
 <script>
+/* ===== COUNTDOWN ===== */
 const target = new Date("February 20, 2026 00:00:00").getTime();
 const el = document.getElementById("timer");
 
-function pad2(n){ return String(n).padStart(2,"0"); }
+function pad(n){ return String(n).padStart(2,"0"); }
 
 function tick(){
-  let diff = target - Date.now();
-  if(diff <= 0){
-    el.textContent = "AVAILABLE";
-    return;
-  }
+  let d = target - Date.now();
+  if(d <= 0){ el.textContent = "AVAILABLE"; return; }
 
-  const d = Math.floor(diff / 86400000);
-  diff %= 86400000;
-  const h = Math.floor(diff / 3600000);
-  diff %= 3600000;
-  const m = Math.floor(diff / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
+  const days = Math.floor(d / 86400000);
+  d %= 86400000;
+  const h = Math.floor(d / 3600000);
+  d %= 3600000;
+  const m = Math.floor(d / 60000);
+  d %= 60000;
+  const s = Math.floor(d / 1000);
 
-  el.textContent = `${d}D ${pad2(h)}H ${pad2(m)}M ${pad2(s)}S`;
+  el.textContent = `${days}D ${pad(h)}H ${pad(m)}M ${pad(s)}S`;
 }
 
 tick();
