@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>RYAN CHAMBERS — GREEN CRACK — AMPRSND </title>
+
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/alte-haas-grotesk">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#0b120d;          /* deep green-black */
+  --ink:#d9ffd2;         /* toxic pale green */
+  --artist:#8fbf98;      /* muted green */
+  --timer:#6fae78;       /* dimmer green */
+}
+
+body{
+  font-family:'Alte Haas Grotesk', Helvetica, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  height:100vh;
+  overflow:hidden;
+}
+
+/* ===== DESKTOP CANVAS ===== */
+.stage{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ===== ART ===== */
+.cover img{
+  width:min(70vh,640px);
+  box-shadow:
+    0 40px 120px rgba(255,140,0,.25),
+    0 0 120px rgba(90,255,120,.08);
+  transition:transform 700ms ease, filter 700ms ease, box-shadow 700ms ease;
+}
+
+.cover:hover img{
+  transform:scale(1.015);
+  filter:brightness(1.06) contrast(1.05);
+  box-shadow:
+    0 50px 160px rgba(255,120,0,.35),
+    0 0 160px rgba(90,255,120,.12);
+}
+
+/* ===== META (DESKTOP) ===== */
+.meta{
+  position:fixed;
+  bottom:36px;
+  left:36px;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  line-height:1.45;
+}
+
+.meta .artist{ color:var(--artist); }
+.meta .title{
+  display:block;
+  margin-top:6px;
+  color:var(--ink);
+}
+
+/* ===== TIMER (DESKTOP) ===== */
+.timer{
+  position:fixed;
+  bottom:36px;
+  right:36px;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--timer);
+  font-variant-numeric: tabular-nums;
+  text-align:right;
+}
+
+.stage::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:
+    radial-gradient(circle at 60% 50%, rgba(80,255,120,.06), transparent 60%);
+  pointer-events:none;
+}
+
+/* ===== BACK ===== */
+.back{
+  position:fixed;
+  top:28px;
+  left:28px;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:#7fae88;
+}
+
+/* ========================= */
+/* ===== MOBILE REFLOW ===== */
+/* ========================= */
+
+@media(max-width:700px){
+
+  body{
+    height:auto;
+    overflow:auto;
+  }
+
+  .stage{
+    position:relative;
+    inset:auto;
+    padding-top:110px;
+    padding-bottom:120px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+  }
+
+  /* TIMER — ABOVE ARTWORK */
+  .timer{
+    position:relative;
+    margin-bottom:22px;
+    font-size:10px;
+    letter-spacing:.22em;
+    text-align:center;
+  }
+
+  /* ARTWORK — TRUE CENTER */
+  .cover img{
+    width:84vw;
+    max-width:420px;
+    margin:0 auto;
+    box-shadow:0 28px 80px rgba(0,0,0,.16);
+  }
+
+  /* META — BELOW ARTWORK */
+  .meta{
+    position:relative;
+    margin-top:26px;
+    text-align:center;
+    font-size:11px;
+    letter-spacing:.2em;
+  }
+
+  .meta .title{
+    margin-top:8px;
+  }
+
+  .back{
+    top:18px;
+    left:18px;
+    font-size:10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<a href="/" class="back">Back</a>
+
+<div class="stage">
+  <div class="cover">
+   <img
+  src="../images/RYANCHAMBERS-GREENCRACK-B01.1-020126.png"
+  alt="RYAN CHAMBERS — GREEN CRACK"
+/>
+  </div>
+
+  <!-- MOBILE META STACK -->
+  <div class="meta">
+    <div class="artist">RYAN CHAMBERS</div>
+    <div class="title">GREEN CRACK</div>
+  </div>
+
+  <div class="timer" id="timer">LOADING</div>
+</div>
+
+<script>
+/* ===== COUNTDOWN ===== */
+const target = new Date("February 24, 2026 00:00:00").getTime();
+const el = document.getElementById("timer");
+
+function pad(n){ return String(n).padStart(2,"0"); }
+
+function tick(){
+  let d = target - Date.now();
+  if(d <= 0){ el.textContent = "AVAILABLE"; return; }
+
+  const days = Math.floor(d / 86400000);
+  d %= 86400000;
+  const h = Math.floor(d / 3600000);
+  d %= 3600000;
+  const m = Math.floor(d / 60000);
+  d %= 60000;
+  const s = Math.floor(d / 1000);
+
+  el.textContent = `${days}D ${pad(h)}H ${pad(m)}M ${pad(s)}S`;
+}
+
+tick();
+setInterval(tick,1000);
+</script>
+
+</body>
+</html>
